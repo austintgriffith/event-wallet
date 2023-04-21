@@ -71,14 +71,14 @@ export const Address = ({ address, disableAddressLink, format }: TAddressProps) 
           // eslint-disable-next-line
           <img className="rounded-full" src={ensAvatar} width={24} height={24} alt={`${address} avatar`} />
         ) : (
-          <Blockies className="mx-auto rounded-full" size={8} seed={address.toLowerCase()} scale={3} />
+          <Blockies className="mx-auto rounded-full" size={8} seed={address.toLowerCase()} scale={4} />
         )}
       </div>
       {disableAddressLink ? (
         <span className="ml-1.5 text-lg font-normal">{displayAddress}</span>
       ) : (
         <a
-          className="ml-1.5 text-lg font-normal"
+          className="ml-1.5 text-3xl font-normal"
           target="_blank"
           href={blockExplorerAddressLink}
           rel="noopener noreferrer"
