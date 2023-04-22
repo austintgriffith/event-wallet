@@ -21,7 +21,6 @@ const scaffoldConfig = {
   // it has no effect on the local network
   pollingInterval: 5000,
 
-  tokenEmoji: "💎",
   hideHeader: true,
 
   // This is ours Alchemy's default API key.

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddressInput, InputBase } from ".";
 import { BigNumber, ethers } from "ethers";
-import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
+import { PaperAirplaneIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 type TTokenBalanceProps = {
@@ -15,7 +15,15 @@ type TTokenBalanceProps = {
 /**
  * Display Balance of token
  */
-export const TokenBalance = ({ amount, emoji, name, selected, setSelected }: TTokenBalanceProps) => {
+export const TokenBalance = ({
+  amount,
+  emoji,
+  name,
+  selected,
+  setSelected,
+  scannedToAddress,
+  openScanner,
+}: TTokenBalanceProps) => {
   const [toAddress, setToAddress] = useState("");
   const [sendAmount, setSendAmount] = useState("");
   const { writeAsync: transfer, isMining } = useScaffoldContractWrite({
@@ -24,6 +32,14 @@ export const TokenBalance = ({ amount, emoji, name, selected, setSelected }: TTo
     args: [toAddress, ethers.utils.parseEther(sendAmount || "0")],
   });
 
+  useEffect(() => {
+    if (scannedToAddress) {
+      console.log("SETTING!!!!!", scannedToAddress);
+      setToAddress(scannedToAddress);
+    }
+  }, [scannedToAddress]);
+
+  console.log("toAddress", toAddress);
   let displayed;
   if (!selected) {
     displayed = (
@@ -47,7 +63,16 @@ export const TokenBalance = ({ amount, emoji, name, selected, setSelected }: TTo
         <div className="card w-full bg-white shadow-xl mt-6">
           <div className="card-body">
             <div>
-              <AddressInput value={toAddress} onChange={v => setToAddress(v)} placeholder="To Address" />
+              <AddressInput
+                value={toAddress}
+                onChange={v => {
+                  console.log("UPDATEFROMTOADDRESS", v);
+                  setToAddress(v);
+                }}
+                placeholder="To Address"
+                suffix={<div>hi</div>}
+                openScanner={openScanner}
+              />
             </div>
             <div>
               <InputBase type="number" value={sendAmount} onChange={v => setSendAmount(v)} placeholder="Amount" />
@@ -73,7 +98,10 @@ export const TokenBalance = ({ amount, emoji, name, selected, setSelected }: TTo
             setSelected && setSelected("");
           }}
         >
-          <button className="btn btn-secondary w-full my-8">cancel</button>
+          <button className="btn btn-secondary w-full my-8">
+            <XMarkIcon className="h-5 w-5 mr-2" aria-hidden="true" />
+            cancel
+          </button>
         </div>
       </div>
     );

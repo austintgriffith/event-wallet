@@ -1832,6 +1832,7 @@ __metadata:
     nextjs-progressbar: ^0.0.16
     postcss: ^8.4.16
     prettier: ^2.8.4
+    qr-scanner: ^1.4.2
     react: ^18.2.0
     react-blockies: ^1.4.1
     react-copy-to-clipboard: ^5.1.0
@@ -2483,6 +2484,13 @@ __metadata:
   version: 0.2.0
   resolution: "@types/nprogress@npm:0.2.0"
   checksum: 561384775008ae58111f038f8f9468b3de8987cd753feef9bf6d07af0e1343390d492a078bb08a7b53ac7370208e31e06ac069cb852c435d49f5fe218e9769c4
+  languageName: node
+  linkType: hard
+
+"@types/offscreencanvas@npm:^2019.6.4":
+  version: 2019.7.0
+  resolution: "@types/offscreencanvas@npm:2019.7.0"
+  checksum: 018cfcd19e0c59c44d14ba61caaca7246f77fbb512839c7881654b7f2b6591dbdd5857362eccbf49f29cdc93724e71a4b37c8b6cf203388f9c04e913a53ea390
   languageName: node
   linkType: hard
 
@@ -10993,6 +11001,15 @@ __metadata:
   version: 2.1.1
   resolution: "punycode@npm:2.1.1"
   checksum: 823bf443c6dd14f669984dea25757b37993f67e8d94698996064035edd43bed8a5a17a9f12e439c2b35df1078c6bec05a6c86e336209eb1061e8025c481168e8
+  languageName: node
+  linkType: hard
+
+"qr-scanner@npm:^1.4.2":
+  version: 1.4.2
+  resolution: "qr-scanner@npm:1.4.2"
+  dependencies:
+    "@types/offscreencanvas": ^2019.6.4
+  checksum: 554855c1d61cc9f502162d43d76d0cd03d6df77b0ecbfcae2c0f936c31cbd1ac45e673857b91628dde1d3f5156eca6651c4973187fa061ae9ec7ec07a95f7738
   languageName: node
   linkType: hard
 
