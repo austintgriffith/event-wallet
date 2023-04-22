@@ -26,7 +26,7 @@ const Home: NextPage = () => {
 
   const [selectedAsset, setSelectedAsset] = useState("");
 
-  const [qrScanner, setQrScanner] = useState("");
+  const [qrScanner, setQrScanner] = useState(null);
   const [scanning, setScanning] = useState(false);
   const [scannedToAddress, setScannedToAddress] = useState("");
 

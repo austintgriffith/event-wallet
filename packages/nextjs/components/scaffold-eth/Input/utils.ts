@@ -6,6 +6,7 @@ export interface CommonInputProps<T = string> {
   name?: string;
   type?: string;
   placeholder?: string;
+  openScanner?: () => void;
 }
 
 export enum IntegerVariant {

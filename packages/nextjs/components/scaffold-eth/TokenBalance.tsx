@@ -10,6 +10,8 @@ type TTokenBalanceProps = {
   name?: string;
   selected?: string;
   setSelected?: (asset: string) => void;
+  scannedToAddress?: string;
+  openScanner?: () => void;
 };
 
 /**
@@ -70,7 +72,6 @@ export const TokenBalance = ({
                   setToAddress(v);
                 }}
                 placeholder="To Address"
-                suffix={<div>hi</div>}
                 openScanner={openScanner}
               />
             </div>
