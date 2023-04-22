@@ -26,6 +26,8 @@ export const TokenBalance = ({
   scannedToAddress,
   openScanner,
 }: TTokenBalanceProps) => {
+  const styleForAmountDisplay: any = { "--value": ethers.utils.formatEther(amount || "0") };
+
   const [toAddress, setToAddress] = useState("");
   const [sendAmount, setSendAmount] = useState("");
   const { writeAsync: transfer, isMining } = useScaffoldContractWrite({
@@ -47,7 +49,7 @@ export const TokenBalance = ({
     displayed = (
       <>
         <span className="countdown font-mono text-6xl ">
-          <span style={{ "--value": amount && ethers.utils.formatEther(amount) }}></span>
+          <span style={styleForAmountDisplay}></span>
         </span>
         <span className="text-8xl font-bold">{emoji}</span>
       </>
@@ -57,7 +59,7 @@ export const TokenBalance = ({
       <div className="artboard phone-1">
         <div className="flex flex-row">
           <span className="countdown font-mono text-8xl">
-            <span style={{ "--value": amount && ethers.utils.formatEther(amount) }}></span>
+            <span style={styleForAmountDisplay}></span>
           </span>
           <span className="pl-16 text-9xl font-bold mr-1">{emoji}</span>
         </div>

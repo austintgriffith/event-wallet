@@ -10,6 +10,11 @@ import { Modal } from "~~/components/scaffold-eth/Modal";
 import { TokenBalance } from "~~/components/scaffold-eth/TokenBalance";
 import { useAutoConnect, useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
+interface IQrScanner {
+  start: () => void;
+  stop: () => void;
+}
+
 const Home: NextPage = () => {
   useAutoConnect();
 
@@ -26,7 +31,7 @@ const Home: NextPage = () => {
 
   const [selectedAsset, setSelectedAsset] = useState("");
 
-  const [qrScanner, setQrScanner] = useState(null);
+  const [qrScanner, setQrScanner] = useState({ start: () => {}, stop: () => {} }); //lol f you ts
   const [scanning, setScanning] = useState(false);
   const [scannedToAddress, setScannedToAddress] = useState("");
 
@@ -37,7 +42,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     console.log("setup scanner...");
-    const qrScannerObj = new QrScanner(
+    const qrScannerObj: IQrScanner = new QrScanner(
       document.getElementById("qr-video"),
       result => {
         setScanning(false);
