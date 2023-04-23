@@ -31,7 +31,7 @@ const Home: NextPage = () => {
 
   const [selectedAsset, setSelectedAsset] = useState("");
 
-  const [qrScanner, setQrScanner] = useState({ start: () => {}, stop: () => {} }); //lol f you ts
+  const [qrScanner, setQrScanner] = useState({});
   const [scanning, setScanning] = useState(false);
   const [scannedToAddress, setScannedToAddress] = useState("");
 
@@ -43,7 +43,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     console.log("setup scanner...");
     const qrScannerObj: IQrScanner = new QrScanner(
-      document.getElementById("qr-video"),
+      document.getElementById("qr-video")!,
       result => {
         setScanning(false);
         qrScannerObj.stop();
