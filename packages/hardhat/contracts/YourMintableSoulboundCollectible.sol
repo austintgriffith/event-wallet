@@ -5,6 +5,7 @@ pragma solidity >=0.8.0 <0.9.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 //import the 721 contract
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 
 /**
@@ -12,7 +13,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
  * It also allows the owner to withdraw the Ether in the contract
  * @author BuidlGuidl
  */
-contract YourCollectible is ERC721, Ownable {
+contract YourMintableSoulboundCollectible is ERC721Enumerable, Ownable  {
 
     mapping(address => bool) public isMinter;
     
@@ -27,14 +28,26 @@ contract YourCollectible is ERC721, Ownable {
         _mint(to, supply++);
     }
 
-    function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        _requireMinted(tokenId);
-        return 'https://ipfs.io/ipfs/QmWEfDCbjd6jxNz3H6fE1b6RSSFLXrZbNgLrkhehatVEqp';
+    function _beforeTokenTransfer(address from, address to, uint256 firstTokenId, uint256 batchSize) internal override {
+        require(msg.sender==owner() || isMinter[msg.sender], "This is a soulbound collectible");
     }
 
+    function tokenURI(uint256 tokenId) public view override returns (string memory) {
+        _requireMinted(tokenId);
+        return 'https://ipfs.io/ipfs/QmS9BP1ShmiLVi8E8T89uSd3Dv8Nb4hT8G7tnEZRq86nCq';
+    }
+
+    function getAllCollectibles(address addr) public view returns( string[] memory){
+        uint256 balance = balanceOf(addr);
+        string[] memory collectibles = new string[](balance);
+        for(uint256 i = 0; i < balance; i++){
+            collectibles[i] = tokenURI(tokenOfOwnerByIndex(addr, i));
+        }
+        return collectibles;
+    }
     // Constructor: Called once on contract deployment
     // Check packages/hardhat/deploy/00_deploy_your_contract.ts
-    constructor(address _owner) ERC721("YourCollectible", "YCOL") {
+    constructor(address _owner) ERC721("YourMintableSoulboundCollectible", "YMSC") {
         transferOwnership(_owner);
     }
 

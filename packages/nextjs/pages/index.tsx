@@ -7,6 +7,7 @@ import { useAccount, useBalance } from "wagmi";
 import { ArrowDownTrayIcon, QrCodeIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Address } from "~~/components/scaffold-eth";
 import { Modal } from "~~/components/scaffold-eth/Modal";
+import { NFTBalance } from "~~/components/scaffold-eth/NFTBalance";
 import { TokenBalance } from "~~/components/scaffold-eth/TokenBalance";
 import { useAutoConnect, useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
@@ -211,6 +212,8 @@ const Home: NextPage = () => {
               </button>
             </div>
           )}
+
+          <NFTBalance address={address} scannedToAddress={scannedToAddress} openScanner={openScanner} />
 
           <div className="flex justify-center opacity-60 mt-5">⛽️ {parseFloat(ethBalance?.formatted).toFixed(3)}</div>
         </div>

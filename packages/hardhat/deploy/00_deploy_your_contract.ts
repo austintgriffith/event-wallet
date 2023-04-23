@@ -31,7 +31,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     autoMine: true,
   });
 
-  await deploy("YourCollectible", {
+  await deploy("YourMintableSoulboundCollectible", {
     from: deployer,
     // Contract constructor arguments
     args: ["0x34aA3F359A9D614239015126635CE7732c18fDF3"],

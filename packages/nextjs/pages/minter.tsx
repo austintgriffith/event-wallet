@@ -30,7 +30,7 @@ const Minter: NextPage = () => {
   const [scanning, setScanning] = useState(false);
   const [showSending, setShowSending] = useState("");
 
-  const { data: yourCollectibleData } = useDeployedContractInfo("YourCollectible");
+  const { data: yourMintableSoulboundCollectible } = useDeployedContractInfo("YourMintableSoulboundCollectible");
 
   const { data: signer } = useSigner();
 
@@ -42,9 +42,9 @@ const Minter: NextPage = () => {
       setAddressToMintTo("");
     }, 6000);
 
-    console.log("yourCollectibleData", yourCollectibleData);
-    const contractAddress = yourCollectibleData?.address;
-    const contractABI = yourCollectibleData?.abi;
+    console.log("yourMintableSoulboundCollectible", yourMintableSoulboundCollectible);
+    const contractAddress = yourMintableSoulboundCollectible?.address;
+    const contractABI = yourMintableSoulboundCollectible?.abi;
 
     const newContract = new ethers.Contract(
       contractAddress || "",
@@ -70,6 +70,7 @@ const Minter: NextPage = () => {
       },
       {
         /* your options or returnDetailedScanResult: true if you're not specifying any other options */
+        preferredCamera: "user",
       },
     );
     qrScannerObj.start();
