@@ -129,7 +129,8 @@ const Minter: NextPage = () => {
           <div className="card-body">
             {displayed}
             <div>You found me!</div>
-            <div>Show me your wallet QR to get an NFT!</div>
+            <div>Show me your wallet QR to get this NFT:</div>
+            <img src="https://ipfs.io/ipfs/QmPs8j7RwQrShNRF1ALW7TTYWpMsBepno7hpK3STxACmdG" />
             <div
               id="video-container"
               className="bg-primary w-full relative cursor-pointer overflow-hidden mt-8" //
