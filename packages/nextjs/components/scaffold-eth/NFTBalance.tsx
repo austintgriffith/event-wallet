@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
+import { Coin } from "../Coin";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
 type TNFTBalanceProps = {
-  scannedToAddress?: string;
-  openScanner?: () => void;
+  address?: string;
 };
 
 /**
@@ -22,7 +22,12 @@ export const NFTBalance = ({ address }: TNFTBalanceProps) => {
     args: [address],
   });
 
-  const [loadedCollectibles, setLoadedCollectibles] = useState([]);
+  type TCollectible = {
+    name?: string;
+    image?: string;
+  };
+
+  const [loadedCollectibles, setLoadedCollectibles] = useState<TCollectible[]>([]);
 
   useEffect(() => {
     const loadCollectibles = async () => {
@@ -51,7 +56,8 @@ export const NFTBalance = ({ address }: TNFTBalanceProps) => {
     console.log("collectible", collectible);
     return (
       <div key={index} className="flex flex-col items-center justify-center">
-        <img src={collectible.image} alt={collectible.name} />
+        <Coin image={collectible.image} alt={collectible.name} />
+
         <div className="text-center">
           <div className="text-sm font-bold">{collectible.name}</div>
         </div>
@@ -116,7 +122,7 @@ export const NFTBalance = ({ address }: TNFTBalanceProps) => {
     <div className="w-full flex items-center justify-center">
       <div className="p-4 bg-primary">{balance && balance.toNumber()}</div>
       <div className="m-8">
-        <div className="grid grid-cols-2 gap-4">{renderedCollectibles}</div>
+        <div className="grid grid-cols-1 gap-4">{renderedCollectibles}</div>
       </div>
     </div>
   );

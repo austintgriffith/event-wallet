@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import type { NextPage } from "next";
 import QrScanner from "qr-scanner";
 import { useAccount, useBalance, useSigner } from "wagmi";
+import { Coin } from "~~/components/Coin";
 import { Address } from "~~/components/scaffold-eth";
 import { useAutoConnect, useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 
@@ -130,7 +131,7 @@ const Minter: NextPage = () => {
             {displayed}
             <div>You found me!</div>
             <div>Show me your wallet QR to get this NFT:</div>
-            <img src="https://ipfs.io/ipfs/QmPs8j7RwQrShNRF1ALW7TTYWpMsBepno7hpK3STxACmdG" />
+            <Coin image="https://ipfs.io/ipfs/QmPs8j7RwQrShNRF1ALW7TTYWpMsBepno7hpK3STxACmdG" />
             <div
               id="video-container"
               className="bg-primary w-full relative cursor-pointer overflow-hidden mt-8" //
