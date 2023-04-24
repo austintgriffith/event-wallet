@@ -1,0 +1,121 @@
+.coin__container {
+  margin: 0 auto;
+  height: 160px;
+  width: 160px;
+  transition: all 1s ease;
+}
+
+.coin {
+  height: 160px;
+  width: 160px;
+  position: absolute;
+  transform-style: preserve-3d;
+  transform-origin: 50%;
+}
+
+.coin .coin__front,
+.coin .coin__back {
+    position: absolute;
+    height: 160px;
+    width: 160px;
+    border-radius: 50%;
+    background-size: cover;
+}
+
+.coin .coin__front {
+    transform: translateZ(5px);
+}
+
+.coin .coin__back {
+    transform: translateZ(-5px) rotateY(180deg);
+}
+
+.coin .coin__side {
+    transform: translateX(75px);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.coin .coin__side .coin__c {
+  height: 160px;
+  width: 10px;
+  position: absolute;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.coin .coin__side .coin__c:before,
+.coin .coin__side .coin__c:after {
+  content: "";
+  display: block;
+  height: 15.682742452729697px;
+  width: 10px;
+  position: absolute;
+  transform: rotateX(84.375deg);
+  background: #999999;
+}
+
+.coin .coin__side .coin__c:before {
+  transform-origin: top center;
+}
+.coin .coin__side .coin__c:after {
+  bottom: 0;
+  transform-origin: center bottom;
+}
+.coin .coin__side .coin__c:nth-child(16) {
+  transform: rotateY(90deg) rotateX(180deg);
+}
+.coin .coin__side .coin__c:nth-child(15) {
+  transform: rotateY(90deg) rotateX(168.75deg);
+}
+.coin .coin__side .coin__c:nth-child(14) {
+  transform: rotateY(90deg) rotateX(157.5deg);
+}
+.coin .coin__side .coin__c:nth-child(13) {
+  transform: rotateY(90deg) rotateX(146.25deg);
+}
+.coin .coin__side .coin__c:nth-child(12) {
+  transform: rotateY(90deg) rotateX(135deg);
+}
+.coin .coin__side .coin__c:nth-child(11) {
+  transform: rotateY(90deg) rotateX(123.75deg);
+}
+.coin .coin__side .coin__c:nth-child(10) {
+  transform: rotateY(90deg) rotateX(112.5deg);
+}
+.coin .coin__side .coin__c:nth-child(9) {
+  transform: rotateY(90deg) rotateX(101.25deg);
+}
+.coin .coin__side .coin__c:nth-child(8) {
+  transform: rotateY(90deg) rotateX(90deg);
+}
+.coin .coin__side .coin__c:nth-child(7) {
+  transform: rotateY(90deg) rotateX(78.75deg);
+}
+.coin .coin__side .coin__c:nth-child(6) {
+  transform: rotateY(90deg) rotateX(67.5deg);
+}
+.coin .coin__side .coin__c:nth-child(5) {
+  transform: rotateY(90deg) rotateX(56.25deg);
+}
+.coin .coin__side .coin__c:nth-child(4) {
+  transform: rotateY(90deg) rotateX(45deg);
+}
+.coin .coin__side .coin__c:nth-child(3) {
+  transform: rotateY(90deg) rotateX(33.75deg);
+}
+.coin .coin__side .coin__c:nth-child(2) {
+  transform: rotateY(90deg) rotateX(22.5deg);
+}
+.coin .coin__side .coin__c:nth-child(1) {
+  transform: rotateY(90deg) rotateX(11.25deg);
+}
+
+.coin .coin__front {
+  background-color: #cccccc;
+  background-position: center center;
+}
+
+.coin .coin__back {
+  background-color: #cccccc;
+}
