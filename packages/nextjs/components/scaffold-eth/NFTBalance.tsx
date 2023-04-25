@@ -120,7 +120,7 @@ export const NFTBalance = ({ address }: TNFTBalanceProps) => {
   */
   return (
     <div className="w-full flex items-center justify-center">
-      <div className="p-4 bg-primary">{balance && balance.toNumber()}</div>
+      <div className="p-4 bg-primary opacity-0">{balance && balance.toNumber()}</div>
       <div className="m-8">
         <div className="grid grid-cols-1 gap-4">{renderedCollectibles}</div>
       </div>

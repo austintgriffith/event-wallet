@@ -5,7 +5,7 @@ const Qr: NextPage = () => {
   //how tf do you get the current full url in nextjs?
   //const pathname = window?.location.href;
 
-  const pathname = "https://event-wallet-austintgriffith.vercel.app/";
+  const pathname = "https://gems.atg.link/";
 
   return (
     <>

@@ -86,6 +86,15 @@ const Home: NextPage = () => {
             openScanner={openScanner}
           />
           <TokenBalance
+            amount={balance}
+            emoji="🌷"
+            name={"toolies"}
+            selected={selectedAsset}
+            setSelected={setSelectedAsset}
+            scannedToAddress={scannedToAddress}
+            openScanner={openScanner}
+          />
+          {/*  <TokenBalance
             emoji="💊"
             name={"pills"}
             selected={selectedAsset}
@@ -124,7 +133,7 @@ const Home: NextPage = () => {
             setSelected={setSelectedAsset}
             scannedToAddress={scannedToAddress}
             openScanner={openScanner}
-          />
+          />*/}
         </div>
 
         <div className="card-actions block">
@@ -215,7 +224,13 @@ const Home: NextPage = () => {
 
           <NFTBalance address={address} scannedToAddress={scannedToAddress} openScanner={openScanner} />
 
-          <div className="flex justify-center opacity-60 mt-5">⛽️ {parseFloat(ethBalance?.formatted).toFixed(3)}</div>
+          {ethBalance && parseFloat(ethBalance?.formatted) > 0 ? (
+            <div className="flex justify-center opacity-60 mt-5">
+              ⛽️ {parseFloat(ethBalance?.formatted).toFixed(3)}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>
