@@ -43,6 +43,9 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
 
   // Get the deployed contract
   // const yourContract = await hre.ethers.getContract("YourContract", deployer);
+
+  //const yourMintableSoulboundCollectible = await hre.ethers.getContract("YourMintableSoulboundCollectible", deployer);
+  //await yourMintableSoulboundCollectible.mint()
 };
 
 export default deployYourContract;

@@ -37,6 +37,7 @@ export const NFTBalance = ({ address }: TNFTBalanceProps) => {
         for (let i = 0; i < allCollectibles.length; i++) {
           const collectible = await fetch(allCollectibles[i]);
           const collectibleJson = await collectible.json();
+          console.log("collectibleJson", collectibleJson);
           collectibles.push(collectibleJson);
         }
 
@@ -120,7 +121,6 @@ export const NFTBalance = ({ address }: TNFTBalanceProps) => {
   */
   return (
     <div className="w-full flex items-center justify-center">
-      <div className="p-4 bg-primary opacity-0">{balance && balance.toNumber()}</div>
       <div className="m-8">
         <div className="grid grid-cols-1 gap-4">{renderedCollectibles}</div>
       </div>

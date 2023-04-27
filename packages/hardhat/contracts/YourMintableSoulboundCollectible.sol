@@ -16,6 +16,12 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 contract YourMintableSoulboundCollectible is ERC721Enumerable, Ownable  {
 
     mapping(address => bool) public isMinter;
+    mapping(uint256 => uint256) public typeOfToken;
+    mapping(uint256 => string) public tokenURIByType;
+
+    function updateURI(uint256 tokenType, string memory uri) public onlyOwner {
+        tokenURIByType[tokenType] = uri;
+    }
     
     function updateMinter(address minter, bool val) public onlyOwner {
         isMinter[minter] = val;
@@ -23,18 +29,21 @@ contract YourMintableSoulboundCollectible is ERC721Enumerable, Ownable  {
     
     uint256 public supply = 0;
 
-    function mint(address to) public {
+    function mint(address to, uint256 _typeOfToken) public {
         require(msg.sender==owner() || isMinter[msg.sender], "You are not a minter");
-        _mint(to, supply++);
+        uint256 tokenId = supply++;
+        _mint(to, tokenId);
+        typeOfToken[tokenId] = _typeOfToken;
     }
 
     function _beforeTokenTransfer(address from, address to, uint256 firstTokenId, uint256 batchSize) internal override {
         require(msg.sender==owner() || isMinter[msg.sender], "This is a soulbound collectible");
+        super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
         _requireMinted(tokenId);
-        return 'https://ipfs.io/ipfs/QmS9BP1ShmiLVi8E8T89uSd3Dv8Nb4hT8G7tnEZRq86nCq';
+        return tokenURIByType[typeOfToken[tokenId]];
     }
 
     function getAllCollectibles(address addr) public view returns( string[] memory){
@@ -48,7 +57,15 @@ contract YourMintableSoulboundCollectible is ERC721Enumerable, Ownable  {
     // Constructor: Called once on contract deployment
     // Check packages/hardhat/deploy/00_deploy_your_contract.ts
     constructor(address _owner) ERC721("YourMintableSoulboundCollectible", "YMSC") {
+        isMinter[msg.sender] = true;
+        updateURI(0, "https://ipfs.io/ipfs/QmcAvUJDUjunHPe2TZ68dTbAYoGV6QG3san25ymv2z8xCn");
+        updateURI(1, "https://ipfs.io/ipfs/QmYLj9sRTdQVBUv7BsA4ro1u2hsgHwXfpK6dtWoJRqSfU8");
+        updateURI(2, "https://ipfs.io/ipfs/QmcYXWAoyoccZpYV5m6QHcmb8Z4x2PoUsgY5TVaQMaUssw");
+        mint(0x12b313eA9c17c1EDCd5c7303CA6BE1A58Bb47278,0);
+        mint(0x12b313eA9c17c1EDCd5c7303CA6BE1A58Bb47278,1);
+        mint(0x12b313eA9c17c1EDCd5c7303CA6BE1A58Bb47278,2);
+        mint(0x12b313eA9c17c1EDCd5c7303CA6BE1A58Bb47278,1);
+        mint(0x12b313eA9c17c1EDCd5c7303CA6BE1A58Bb47278,2);
         transferOwnership(_owner);
     }
-
 }
