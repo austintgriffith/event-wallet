@@ -1,10 +1,24 @@
 import { useEffect, useState } from "react";
+import ReactCardFlip from "react-card-flip";
+import Tilt from "react-parallax-tilt";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
 type TNFTBalanceProps = {
   scannedToAddress?: string;
   openScanner?: () => void;
+  address: string;
 };
+
+interface ICollectible {
+  name: string;
+  description: string;
+  image: string;
+  id: number;
+  isFlipped: boolean;
+  external_url: string;
+  drawing: string;
+  attributes: any[];
+}
 
 /**
  * Display Balance of token
@@ -22,8 +36,15 @@ export const NFTBalance = ({ address }: TNFTBalanceProps) => {
     args: [address],
   });
 
-  const [loadedCollectibles, setLoadedCollectibles] = useState([]);
+  const [loadedCollectibles, setLoadedCollectibles] = useState<ICollectible[]>([]);
 
+  const handleFlip = (id: any) => {
+    setLoadedCollectibles(prevState => {
+      return prevState.map((val: any) => {
+        return val.id === id ? { ...val, isFlipped: !val.isFlipped } : val;
+      });
+    });
+  };
   useEffect(() => {
     const loadCollectibles = async () => {
       const collectibles = [];
@@ -32,9 +53,8 @@ export const NFTBalance = ({ address }: TNFTBalanceProps) => {
         for (let i = 0; i < allCollectibles.length; i++) {
           const collectible = await fetch(allCollectibles[i]);
           const collectibleJson = await collectible.json();
-          collectibles.push(collectibleJson);
+          collectibles.push({ ...collectibleJson, id: i, isFlipped: false });
         }
-
         setLoadedCollectibles(collectibles);
       }
     };
@@ -47,15 +67,29 @@ export const NFTBalance = ({ address }: TNFTBalanceProps) => {
 
   //const { data: yourMintableSoulboundCollectibleData } = useDeployedContractInfo("YourMintableSoulboundCollectible");
 
-  const renderedCollectibles = loadedCollectibles?.map((collectible, index) => {
+  const renderedCollectibles = loadedCollectibles?.map((collectible: any, index) => {
     console.log("collectible", collectible);
     return (
-      <div key={index} className="flex flex-col items-center justify-center">
-        <img src={collectible.image} alt={collectible.name} />
-        <div className="text-center">
-          <div className="text-sm font-bold">{collectible.name}</div>
-        </div>
-      </div>
+      <Tilt key={index} scale={1.1} perspective={400}>
+        <ReactCardFlip isFlipped={collectible.isFlipped} flipDirection="horizontal">
+          <div key={index} onClick={() => handleFlip(index)} className="flex flex-col items-center justify-center">
+            <img src={collectible.image} alt={collectible.name} />
+            <div className="text-center">
+              <div className="text-sm font-bold">{collectible.name}</div>
+            </div>
+          </div>
+
+          <div
+            key={index}
+            onClick={() => handleFlip(index)}
+            className="flex hover:cursor-pointer flex-col items-center justify-center"
+          >
+            <div className="text-center p-2">
+              <div className="text-sm  font-bold">{collectible.description}</div>
+            </div>
+          </div>
+        </ReactCardFlip>
+      </Tilt>
     );
   });
 
