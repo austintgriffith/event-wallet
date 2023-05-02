@@ -13,9 +13,8 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
  * It also allows the owner to withdraw the Ether in the contract
  * @author BuidlGuidl
  */
-contract YourMintableSoulboundCollectible is ERC721Enumerable, Ownable  {
+contract YourMintableCollectible is ERC721Enumerable, Ownable  {
 
-    mapping(address => bool) public isMinter;
     mapping(uint256 => uint256) public typeOfToken;
     mapping(uint256 => string) public tokenURIByType;
 
@@ -23,22 +22,12 @@ contract YourMintableSoulboundCollectible is ERC721Enumerable, Ownable  {
         tokenURIByType[tokenType] = uri;
     }
     
-    function updateMinter(address minter, bool val) public onlyOwner {
-        isMinter[minter] = val;
-    }
-    
     uint256 public supply = 0;
 
-    function mint(address to, uint256 _typeOfToken) public {
-        require(msg.sender==owner() || isMinter[msg.sender], "You are not a minter");
+    function mint(uint256 _typeOfToken) public {
         uint256 tokenId = supply++;
-        _mint(to, tokenId);
+        _mint(msg.sender, tokenId);
         typeOfToken[tokenId] = _typeOfToken;
-    }
-
-    function _beforeTokenTransfer(address from, address to, uint256 firstTokenId, uint256 batchSize) internal override {
-        require(msg.sender==owner() || isMinter[msg.sender], "This is a soulbound collectible");
-        super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
@@ -57,10 +46,9 @@ contract YourMintableSoulboundCollectible is ERC721Enumerable, Ownable  {
     // Constructor: Called once on contract deployment
     // Check packages/hardhat/deploy/00_deploy_your_contract.ts
     constructor(address _owner) ERC721("YourMintableSoulboundCollectible", "YMSC") {
-        isMinter[msg.sender] = true;
-        updateURI(0, "https://ipfs.io/ipfs/QmQ6ysJAdvWULw3XruaeDzvrJGhUEeAvrjf4uA94Bzp4JR");
-        mint(0x12b313eA9c17c1EDCd5c7303CA6BE1A58Bb47278,0);
-        mint(0x12b313eA9c17c1EDCd5c7303CA6BE1A58Bb47278,0);
+        updateURI(0, "https://ipfs.io/ipfs/QmXhtKdR8NFQp6ngea81uG8GyBSfn1UUmdKXBNrrv5MvA8");
+        //mint(0x12b313eA9c17c1EDCd5c7303CA6BE1A58Bb47278,0);
+        //mint(0x12b313eA9c17c1EDCd5c7303CA6BE1A58Bb47278,0);
         transferOwnership(_owner);
     }
 }

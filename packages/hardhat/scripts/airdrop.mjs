@@ -26,8 +26,10 @@ async function main() {
     const wallets = JSON.parse(fs.readFileSync(readFile, 'utf8'));
     console.log("wallets",wallets)
   
-    const RPCURL = "https://eth-goerli.g.alchemy.com/v2/"+process.env.ALCHEMY //"https://rpc.scaffoldeth.io:48544/"
-   
+    //const RPCURL = "https://eth-goerli.g.alchemy.com/v2/"+process.env.ALCHEMY //"https://rpc.scaffoldeth.io:48544/"
+    const RPCURL = "https://rpc.gnosischain.com"
+
+
     console.log(" 📡 Connecting to RPC: " +RPCURL)
     const provider = new ethers.providers.JsonRpcProvider(RPCURL);
     

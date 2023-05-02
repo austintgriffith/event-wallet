@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import { ethers } from "ethers";
 import type { NextPage } from "next";
 import QrScanner from "qr-scanner";
 import QRCode from "react-qr-code";
-import { useAccount, useBalance } from "wagmi";
+import { useAccount, useBalance, useBlockNumber } from "wagmi";
 import { ArrowDownTrayIcon, QrCodeIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Address } from "~~/components/scaffold-eth";
+import { Address, BlockieAvatar } from "~~/components/scaffold-eth";
 import { Modal } from "~~/components/scaffold-eth/Modal";
 import { NFTBalance } from "~~/components/scaffold-eth/NFTBalance";
 import { TokenBalance } from "~~/components/scaffold-eth/TokenBalance";
-import { useAutoConnect, useScaffoldContractRead } from "~~/hooks/scaffold-eth";
+import {
+  useAutoConnect,
+  useDeployedContractInfo,
+  useScaffoldContractRead,
+  useScaffoldEventHistory,
+} from "~~/hooks/scaffold-eth";
 
 interface IQrScanner {
   start: () => void;
@@ -30,7 +36,7 @@ const Home: NextPage = () => {
     address: address,
   });
 
-  const [selectedAsset, setSelectedAsset] = useState("");
+  const [selectedAsset, setSelectedAsset] = useState("gems");
 
   const [qrScanner, setQrScanner] = useState({});
   const [scanning, setScanning] = useState(false);
@@ -40,6 +46,86 @@ const Home: NextPage = () => {
     setScanning(true);
     qrScanner.start();
   };
+
+  //get the readContract
+  const { data: yourContractData } = useDeployedContractInfo("YourContract");
+
+  /*
+  useEffect(() => {
+    console.log("yourContractData", yourContractData);
+    if(yourContractData){
+      const erc20Contract = new ethers.Contract(yourContractData.address, yourContractData.abi);
+
+      const filter = erc20Contract.filters.Transfer(address, null);
+      const fromFilter = erc20Contract.filters.Transfer(null, address);
+    }
+    
+  }, [yourContractData]);
+  */
+
+  //const filter = erc20Contract.filters.Transfer(FILTERED_ADDRESS, null);
+  //const fromFilter = erc20Contract.filters.Transfer(null, FILTERED_ADDRESS);
+
+  const { data: blockNumber } = useBlockNumber();
+
+  const { data: transferEvents } = useScaffoldEventHistory({
+    contractName: "YourContract",
+    eventName: "Transfer",
+    fromBlock: (blockNumber && blockNumber - 1000) || 0,
+  });
+
+  console.log("transferEvents", transferEvents);
+
+  const [renderedEvents, setRenderedEvents] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (transferEvents) {
+      const newRenderedEvents = [];
+      for (let i = 0; i < transferEvents.length; i++) {
+        const event = transferEvents[i];
+        console.log("event", event);
+        if (event.args[0] === address) {
+          console.log("from", event.args[0]);
+          console.log("to", event.args[1]);
+          console.log("amount", event.args[2]);
+          newRenderedEvents.push(
+            <div className="p-4 flex flex-row">
+              <div className="pr-2">
+                <BlockieAvatar address={event.args[0]} size={24} />
+              </div>
+              <div>
+                <span className="font-bold">you</span>
+                {" sent " + ethers.utils.formatEther(event.args[2] || "0") + "   to "}
+              </div>
+              <div className="pl-3 pr-1">
+                <BlockieAvatar address={event.args[1]} size={24} />
+              </div>
+              <div>{event.args[1].substring(0, 8)}</div>
+            </div>,
+          );
+        } else if (event.args[1] === address) {
+          console.log("from", event.args[0]);
+          console.log("to", event.args[1]);
+          console.log("amount", event.args[2]);
+          newRenderedEvents.push(
+            <div className="p-4 flex flex-row">
+              <div className="pr-2">
+                <BlockieAvatar address={event.args[0]} size={24} />
+              </div>
+              <div className="pr-2">{event.args[0].substring(0, 8)}</div>
+              <div>{" sent " + ethers.utils.formatEther(event.args[2] || "0") + "   to "}</div>
+              <div className="pl-3 pr-1">
+                <BlockieAvatar address={event.args[1]} size={24} />
+              </div>
+
+              <span className="font-bold">you</span>
+            </div>,
+          );
+        }
+      }
+      setRenderedEvents(newRenderedEvents);
+    }
+  }, [transferEvents]);
 
   useEffect(() => {
     console.log("setup scanner...");
@@ -212,6 +298,8 @@ const Home: NextPage = () => {
               </button>
             </div>
           )}
+
+          <div className="flex flex-col items-center justify-center mt-8 py-2">{renderedEvents}</div>
 
           <NFTBalance address={address} scannedToAddress={scannedToAddress} openScanner={openScanner} />
 

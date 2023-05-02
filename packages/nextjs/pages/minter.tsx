@@ -53,7 +53,7 @@ const Minter: NextPage = () => {
       signer || ethers.getDefaultProvider(),
     );
     // call the mint function with the specified argument
-    const mintResult = await newContract.mint(sendToAddress);
+    const mintResult = await newContract.mint(sendToAddress, 0);
 
     console.log("mintResult", mintResult);
   };
